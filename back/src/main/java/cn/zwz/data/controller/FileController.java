@@ -18,8 +18,8 @@ import cn.hutool.core.util.StrUtil;
 import cn.zwz.data.vo.OssSettingVo;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,13 +35,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-/**
- * @author 郑为中
- * CSDN: Designer 小郑
- */
+
 @Slf4j
 @Controller
-@Api(tags = "文件管理接口")
+@Tag(name = "文件管理接口")
 @RequestMapping("/zwz/file")
 @Transactional
 public class FileController {
@@ -63,7 +60,7 @@ public class FileController {
 
     @SystemLog(about = "查询系统文件", type = LogType.DATA_CENTER,doType = "FILE-01")
     @RequestMapping(value = "/getByCondition", method = RequestMethod.GET)
-    @ApiOperation(value = "查询系统文件")
+    @Operation(description = "查询系统文件")
     @ResponseBody
     public Result<IPage<File>> getByCondition(@ModelAttribute File file,@ModelAttribute PageVo page) {
         QueryWrapper<File> qw = new QueryWrapper<>();
@@ -106,7 +103,7 @@ public class FileController {
 
     @SystemLog(about = "文件复制", type = LogType.DATA_CENTER,doType = "FILE-02")
     @RequestMapping(value = "/copy", method = RequestMethod.POST)
-    @ApiOperation(value = "文件复制")
+    @Operation(description = "文件复制")
     @ResponseBody
     public Result<Object> copy(@RequestParam String id,@RequestParam String key) {
         File file = iFileService.getById(id);
@@ -123,7 +120,7 @@ public class FileController {
 
     @SystemLog(about = "文件重命名", type = LogType.DATA_CENTER,doType = "FILE-03")
     @RequestMapping(value = "/rename", method = RequestMethod.POST)
-    @ApiOperation(value = "文件重命名")
+    @Operation(description = "文件重命名")
     @ResponseBody
     public Result<Object> upload(@RequestParam String id, @RequestParam String newKey, @RequestParam String newName) {
         File file = iFileService.getById(id);
@@ -147,7 +144,7 @@ public class FileController {
 
     @SystemLog(about = "文件重命名", type = LogType.DATA_CENTER,doType = "FILE-04")
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    @ApiOperation(value = "文件重命名")
+    @Operation(description = "文件重命名")
     @ResponseBody
     public Result<Object> delete(@RequestParam String[] ids) {
         for(String id : ids) {
@@ -164,7 +161,7 @@ public class FileController {
 
     @SystemLog(about = "预览文件", type = LogType.DATA_CENTER,doType = "FILE-05")
     @RequestMapping(value = "/view/{id}", method = RequestMethod.GET)
-    @ApiOperation(value = "预览文件")
+    @Operation(description = "预览文件")
     public void view(@PathVariable String id,@RequestParam(required = false) String filename,@RequestParam(required = false, defaultValue = "false") Boolean preview,HttpServletResponse httpServletResponse) throws IOException {
         File selectFile = iFileService.getById(id);
         if(selectFile == null){

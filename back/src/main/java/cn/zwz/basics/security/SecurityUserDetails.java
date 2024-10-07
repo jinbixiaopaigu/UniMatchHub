@@ -5,7 +5,8 @@ import cn.zwz.data.entity.User;
 import cn.zwz.data.utils.ZwzNullUtils;
 import cn.zwz.data.vo.PermissionDTO;
 import cn.zwz.data.vo.RoleDTO;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,11 +16,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * @author 郑为中
- * CSDN: Designer 小郑
- */
-@ApiOperation(value = "查询用户的角色和菜单权限")
+
+//@Operation(description = "查询用户的角色和菜单权限")
 public class SecurityUserDetails extends User implements UserDetails {
 
     private static final long serialVersionUID = 1L;
@@ -29,7 +27,7 @@ public class SecurityUserDetails extends User implements UserDetails {
     private List<PermissionDTO> permissions;
 
     @Override
-    @ApiOperation(value = "查询用户的角色和菜单权限")
+    @Operation(description = "查询用户的角色和菜单权限")
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> grantedAuthorityList = new ArrayList<>();
         // 菜单权限
@@ -52,25 +50,25 @@ public class SecurityUserDetails extends User implements UserDetails {
     }
 
     @Override
-    @ApiOperation(value = "账号是否启用")
+    @Operation(description = "账号是否启用")
     public boolean isEnabled() {
         return Objects.equals(CommonConstant.USER_STATUS_NORMAL,this.getStatus());
     }
 
-    @ApiOperation(value = "账号是否过期")
+    @Operation(description = "账号是否过期")
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
     @Override
-    @ApiOperation(value = "账号密码是否过期")
+    @Operation(description = "账号密码是否过期")
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
     @Override
-    @ApiOperation(value = "账号是否禁用")
+    @Operation(description = "账号是否禁用")
     public boolean isAccountNonLocked() {
         return !Objects.equals(CommonConstant.USER_STATUS_LOCK, this.getStatus());
     }

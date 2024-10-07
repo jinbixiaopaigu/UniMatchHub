@@ -4,7 +4,8 @@ import cn.zwz.basics.utils.ResponseUtil;
 import cn.zwz.basics.exception.ZwzAuthException;
 import cn.zwz.basics.parameter.ZwzLoginProperties;
 import cn.zwz.data.utils.ZwzNullUtils;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -19,11 +20,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.concurrent.TimeUnit;
 
-/**
- * @author 郑为中
- * CSDN: Designer 小郑
- */
-@ApiOperation(value = "登录失败回调")
+
+//@Operation(description = "登录失败回调")
 @Slf4j
 @Component
 public class AuthenticationFailHandler extends SimpleUrlAuthenticationFailureHandler {
@@ -42,7 +40,7 @@ public class AuthenticationFailHandler extends SimpleUrlAuthenticationFailureHan
 
     private static final int RESPONSE_FAIL_CODE = 500;
 
-    @ApiOperation(value = "查询登录失败的次数")
+    @Operation(description = "查询登录失败的次数")
     public boolean recordLoginTime(String username) {
         String loginFailTimeStr = stringRedisTemplate.opsForValue().get(LOGIN_FAIL_TIMES_PRE + username);
         int loginFailTime = 0;
@@ -59,7 +57,7 @@ public class AuthenticationFailHandler extends SimpleUrlAuthenticationFailureHan
     }
 
     @Override
-    @ApiOperation(value = "登录失败回调")
+    @Operation(description = "登录失败回调")
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) {
         if (exception instanceof BadCredentialsException || exception instanceof UsernameNotFoundException) {
             recordLoginTime(request.getParameter(REQUEST_PARAMETER_USERNAME));

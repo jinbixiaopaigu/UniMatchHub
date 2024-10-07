@@ -14,8 +14,8 @@ import cn.zwz.data.service.IUserRoleService;
 import cn.zwz.data.utils.ZwzNullUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,12 +25,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-/**
- * @author 郑为中
- * CSDN: Designer 小郑
- */
+
 @RestController
-@Api(tags = "角色管理接口")
+@Tag(name = "角色管理接口")
 @RequestMapping("/zwz/role")
 @Transactional
 public class RoleController {
@@ -52,14 +49,14 @@ public class RoleController {
 
     @SystemLog(about = "查询全部角色", type = LogType.DATA_CENTER,doType = "ROLE-01")
     @RequestMapping(value = "/getAllList", method = RequestMethod.GET)
-    @ApiOperation(value = "查询全部角色")
+    @Operation(description = "查询全部角色")
     public Result<Object> getAllList(){
         return ResultUtil.data(iRoleService.list());
     }
 
     @SystemLog(about = "查询角色", type = LogType.DATA_CENTER,doType = "ROLE-02")
     @RequestMapping(value = "/getAllByPage", method = RequestMethod.GET)
-    @ApiOperation(value = "查询角色")
+    @Operation(description = "查询角色")
     public Result<IPage<Role>> getRoleByPage(@ModelAttribute Role role,@ModelAttribute PageVo page) {
         QueryWrapper<Role> qw = new QueryWrapper<>();
         if(!ZwzNullUtils.isNull(role.getName())) {
@@ -79,7 +76,7 @@ public class RoleController {
 
     @SystemLog(about = "配置默认角色", type = LogType.DATA_CENTER,doType = "ROLE-03")
     @RequestMapping(value = "/setDefault", method = RequestMethod.POST)
-    @ApiOperation(value = "配置默认角色")
+    @Operation(description = "配置默认角色")
     public Result<Object> setDefault(@RequestParam String id,@RequestParam Boolean isDefault){
         Role role = iRoleService.getById(id);
         if(role != null) {
@@ -94,7 +91,7 @@ public class RoleController {
 
     @SystemLog(about = "修改菜单权限", type = LogType.DATA_CENTER,doType = "ROLE-04")
     @RequestMapping(value = "/editRolePerm", method = RequestMethod.POST)
-    @ApiOperation(value = "修改菜单权限")
+    @Operation(description = "修改菜单权限")
     public Result<Object> editRolePerm(@RequestParam String roleId,@RequestParam(required = false) String[] permIds){
         Role role = iRoleService.getById(roleId);
         if(role == null) {
@@ -146,7 +143,7 @@ public class RoleController {
 
     @SystemLog(about = "新增角色", type = LogType.DATA_CENTER,doType = "ROLE-05")
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    @ApiOperation(value = "新增角色")
+    @Operation(description = "新增角色")
     public Result<Role> save(Role role){
         iRoleService.saveOrUpdate(role);
         return new ResultUtil<Role>().setData(role);
@@ -154,7 +151,7 @@ public class RoleController {
 
     @SystemLog(about = "编辑角色", type = LogType.DATA_CENTER,doType = "ROLE-06")
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
-    @ApiOperation(value = "编辑角色")
+    @Operation(description = "编辑角色")
     public Result<Role> edit(Role role){
         iRoleService.saveOrUpdate(role);
         Set<String> keysUser = redisTemplateHelper.keys("user:" + "*");
@@ -166,7 +163,7 @@ public class RoleController {
 
     @SystemLog(about = "删除角色", type = LogType.DATA_CENTER,doType = "ROLE-07")
     @RequestMapping(value = "/delByIds", method = RequestMethod.POST)
-    @ApiOperation(value = "删除角色")
+    @Operation(description = "删除角色")
     public Result<Object> delByIds(@RequestParam String[] ids){
         for(String id : ids) {
             QueryWrapper<UserRole> urQw = new QueryWrapper<>();

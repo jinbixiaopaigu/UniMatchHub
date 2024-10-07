@@ -10,18 +10,15 @@ import cn.zwz.data.entity.Log;
 import cn.zwz.data.service.ILogService;
 import cn.zwz.data.utils.ZwzNullUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-/**
- * @author 郑为中
- * CSDN: Designer 小郑
- */
+
 @RestController
-@Api(tags = "日志管理接口")
+@Tag(name = "日志管理接口")
 @RequestMapping("/zwz/log")
 @Transactional
 public class LogController{
@@ -31,7 +28,7 @@ public class LogController{
 
     @SystemLog(about = "查询日志", type = LogType.DATA_CENTER,doType = "LOG-01")
     @RequestMapping(value = "/getAllByPage", method = RequestMethod.GET)
-    @ApiOperation(value = "查询日志")
+    @Operation(description = "查询日志")
     public Result<Object> getAllByPage(@ModelAttribute Log log, @ModelAttribute PageVo page){
         QueryWrapper<Log> qw = new QueryWrapper<>();
         if(!ZwzNullUtils.isNull(log.getName())) {

@@ -9,7 +9,8 @@ import cn.zwz.basics.utils.ThreadPoolUtil;
 import cn.zwz.data.entity.Log;
 import cn.zwz.data.service.LogService;
 import com.alibaba.fastjson2.JSONObject;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
@@ -26,11 +27,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-/**
- * @author 郑为中
- * CSDN: Designer 小郑
- */
-@ApiOperation(value = "日志实现类")
+
+//@Operation(description = "日志实现类")
 @Aspect
 @Component
 @Slf4j
@@ -58,20 +56,20 @@ public class SystemLogAspect {
 
     private static final String LOG_DO_PRE = "doType";
 
-    @ApiOperation(value = "控制层切点")
+    @Operation(description = "控制层切点")
     @Pointcut("@annotation(cn.zwz.basics.log.SystemLog)")
     public void controllerAspect() {
 
     }
 
-    @ApiOperation(value = "前置通知")
+    @Operation(description = "前置通知")
     @Before("controllerAspect()")
     public void doBefore(JoinPoint joinPoint){
         Date beginTime = new Date();
         beginTimeThreadLocal.set(beginTime);
     }
 
-    @ApiOperation(value = "后置通知")
+    @Operation(description = "后置通知")
     @AfterReturning("controllerAspect()")
     public void after(JoinPoint joinPoint){
         try {
@@ -124,7 +122,7 @@ public class SystemLogAspect {
         }
     }
 
-    @ApiOperation(value = "保存日志")
+    //@Operation(description = "保存日志")
     private static class SaveSystemLogThread implements Runnable {
 
         private Log log;

@@ -5,9 +5,10 @@ import cn.zwz.basics.exception.ZwzException;
 import cn.zwz.basics.utils.ResultUtil;
 import cn.zwz.basics.baseVo.Result;
 import cn.zwz.basics.code.bean.Field;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.beetl.core.Configuration;
 import org.beetl.core.GroupTemplate;
 import org.beetl.core.Template;
@@ -17,18 +18,15 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.*;
 
-/**
- * @author 郑为中
- * CSDN: Designer 小郑
- */
-@ApiOperation(value = "前端代码生成器")
+
+//@Operation(description = "前端代码生成器")
 @RestController
-@Api(tags = "Vue代码生成")
+@Tag(name = "Vue代码生成")
 @RequestMapping(value = "/zwz/generate")
 public class ZwzVueGenerator {
 
     @RequestMapping(value = "/table/{vueName}/{rowNum}", method = RequestMethod.POST)
-    @ApiOperation(value = "生成前端Vue表格代码")
+    @Operation(description = "生成前端Vue表格代码")
     public Result<Object> createTable(@PathVariable String vueName,@PathVariable Integer rowNum,@RequestBody List<Field> fields) throws IOException {
         Map<String, String> map = new HashMap<>();
         map.put("component", generate("tableIndex.btl", false, vueName, rowNum, fields));
@@ -44,7 +42,7 @@ public class ZwzVueGenerator {
     }
 
     @RequestMapping(value = "/tree/{vueName}/{rowNum}", method = RequestMethod.POST)
-    @ApiOperation(value = "生成前端Vue树形代码")
+    @Operation(description = "生成前端Vue树形代码")
     public Result<Object> createTree(@PathVariable String vueName,@PathVariable Integer rowNum,@RequestBody List<Field> fields) throws IOException {
         Map<String, String> map = new HashMap<>();
         map.put("result", generate("tree.btl", false, vueName, rowNum, fields));
@@ -54,7 +52,7 @@ public class ZwzVueGenerator {
     }
 
     @RequestMapping(value = "/getEntityData/{path}", method = RequestMethod.GET)
-    @ApiOperation(value = "生成实体类的前端代码")
+    @Operation(description = "生成实体类的前端代码")
     public Result<Object> getEntityData(@PathVariable String path) {
         String result = null;
         try {
@@ -83,10 +81,10 @@ public class ZwzVueGenerator {
                 continue;
             }
             // 注解
-            ApiModelProperty myFieldAnnotation = field.getAnnotation(ApiModelProperty.class);
+            Schema myFieldAnnotation = field.getAnnotation(Schema.class);
             String fieldNameCN = fieldName;
             if (myFieldAnnotation != null) {
-                fieldNameCN = myFieldAnnotation.value();
+                fieldNameCN = myFieldAnnotation.description ();
             }
             fieldNameCN = (fieldNameCN == null || fieldNameCN == "") ? fieldName : fieldNameCN;
             String type = "text";

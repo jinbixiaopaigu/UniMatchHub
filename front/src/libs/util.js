@@ -238,8 +238,12 @@ util.toDefaultPage = function (routers, name, route, next) {
     let len = routers.length;
     let i = 0;
     let notHandle = true;
+    console.log("len",len);
+    console.log("name",name);
+    console.log("routers",routers);
     while (i < len) {
         if (routers[i].name == name && routers[i].children && routers[i].redirect == undefined) {
+            console.log("test");
             route.replace({
                 name: routers[i].children[0].name
             });
@@ -250,7 +254,8 @@ util.toDefaultPage = function (routers, name, route, next) {
         i++;
     }
     if (notHandle) {
-        next();
+        console.log("Navigating to:", name);
+            next();
     }
 };
 
@@ -317,6 +322,7 @@ util.initRouter = function (vm) {
     }];
     // 判断用户是否登录
     let userInfo = Cookies.get('userInfo')
+    console.log("userInfo",userInfo);
     if (!userInfo) {
         // 未登录
         return;

@@ -1,12 +1,9 @@
 package cn.zwz.basics.log;
 
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.media.Schema;
 
-/**
- * @author 郑为中
- * CSDN: Designer 小郑
- */
-@ApiOperation(value = "日志枚举类")
+
+//@Operation(description = "日志枚举类")
 public enum LogType {
 
     /**

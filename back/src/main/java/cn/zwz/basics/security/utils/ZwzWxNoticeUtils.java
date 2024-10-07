@@ -3,29 +3,27 @@ package cn.zwz.basics.security.utils;
 import cn.zwz.data.utils.ZwzNullUtils;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
-import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author 郑为中
- * CSDN: Designer 小郑
- */
-@ApiOperation(value = "企微消息发送消息工具类")
+
+//@Operation(description = "企微消息发送消息工具类")
 public class ZwzWxNoticeUtils {
 
     private static final String BASE_URL = "https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=";
 
     private static final String USER_ID_ERR = "81013";
 
-    @ApiModelProperty(value = "朗世企业ID")
+    @Schema(description = "朗世企业ID")
     public static final String YH_CORPID = "wwf94bb44e76e308f8";
 
-    @ApiOperation(value = "发送文本消息")
+    @Operation(description = "发送文本消息")
     public static String sendInputMessage(int company,String userId,String content,String token){
         if(content == null || ZwzNullUtils.isNull(content)) {
             return "NULL";
@@ -44,7 +42,7 @@ public class ZwzWxNoticeUtils {
         return "FAIL";
     }
 
-    @ApiOperation(value = "企微上传文件")
+    @Operation(description = "企微上传文件")
     public static String uploadWeChatFile(String path, String fileType,String token) {
         try {
             JSONObject jsonObject = WeChatUploadMeidaUtils.UploadMeida(fileType,path,token);
@@ -61,7 +59,7 @@ public class ZwzWxNoticeUtils {
         }
     }
 
-    @ApiOperation(value = "发送图片消息")
+    @Operation(description = "发送图片消息")
     public static String sendImageMessage(int company,String userId,String mediaId,String token) {
         ZwzWeiChatNoticeImage image = new ZwzWeiChatNoticeImage(userId,"image",YH_CORPID,new ZwzWeChatNoticeImageItem(mediaId),0,1);
         String json = JSON.toJSONString(image);
@@ -76,7 +74,7 @@ public class ZwzWxNoticeUtils {
         return "FAIL";
     }
 
-    @ApiOperation(value = "发送视频消息")
+    @Operation(description = "发送视频消息")
     public static String sendVideoMessage(int company,String userId,String mediaId,String title,String description,String token) {
         ZwzWeiChatNoticeVideo video = new ZwzWeiChatNoticeVideo(userId,"video",YH_CORPID,new ZwzWeChatNoticeVideoItem(mediaId,title,description),0,1);
         String json = JSON.toJSONString(video);
@@ -91,7 +89,7 @@ public class ZwzWxNoticeUtils {
         return "FAIL";
     }
 
-    @ApiOperation(value = "发送文件消息")
+    @Operation(description = "发送文件消息")
     public static String sendFileMessage(int company,String userId,String mediaId,String token) {
         ZwzWeiChatNoticeFile file = new ZwzWeiChatNoticeFile(userId,"file",YH_CORPID,new ZwzWeChatNoticeFileItem(mediaId),0,1);
         String json = JSON.toJSONString(file);
@@ -106,7 +104,7 @@ public class ZwzWxNoticeUtils {
         return "FAIL";
     }
 
-    @ApiOperation(value = "发送文本卡片消息")
+    @Operation(description = "发送文本卡片消息")
     public static String sendTextCardMessage(int company,String userId,String title,String description,String url,String btntxt,String token) {
         ZwzWeiChatNoticeTextCard file = new ZwzWeiChatNoticeTextCard(userId,"textcard",YH_CORPID,new ZwzWeChatNoticeTextCardItem(title,description,url,btntxt),0,1);
         String json = JSON.toJSONString(file);
@@ -121,7 +119,7 @@ public class ZwzWxNoticeUtils {
         return "FAIL";
     }
 
-    @ApiOperation(value = "发送图文消息")
+    @Operation(description = "发送图文消息")
     public static String sendTuWenMessage(String userId,String title,String description,String url,String picUrl,String token) {
         List<ZwzWeChatNoticeTuWenItemValue> tuWenList = new ArrayList<>();
         tuWenList.add(new ZwzWeChatNoticeTuWenItemValue(title, description, url, picUrl));
@@ -138,7 +136,7 @@ public class ZwzWxNoticeUtils {
         return "FAIL";
     }
 
-    @ApiOperation(value = "发送Markdown消息")
+    @Operation(description = "发送Markdown消息")
     public static String sendMarkdownMessage(int company,String userId,String content,String token){
         if(content == null || ZwzNullUtils.isNull(content)) {
             return "NULL";

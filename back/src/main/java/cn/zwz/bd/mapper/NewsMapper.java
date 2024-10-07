@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * 新闻数据处理层
- * @author 郑为中
+
  */
 public interface NewsMapper extends BaseMapper<News> {
 

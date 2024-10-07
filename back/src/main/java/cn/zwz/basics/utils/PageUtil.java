@@ -5,8 +5,8 @@ import cn.zwz.basics.baseVo.PageVo;
 import cn.zwz.data.utils.ZwzNullUtils;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -15,11 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * @author 郑为中
- * CSDN: Designer 小郑
- */
-@ApiOperation(value = "分页工具类")
+
+//@Operation(description = "分页工具类")
 public class PageUtil {
 
     private final static String[] NO_CAN_USE_WORDS = {"drop","select","master","insert","truncate","declare","delete","sleep","update","alter"};
@@ -32,7 +29,7 @@ public class PageUtil {
 
     private static final String NULL_STR = "";
 
-    @ApiModelProperty(value = "JPA分页方法")
+    @Schema(description = "JPA分页方法")
     public static Pageable initPage(PageVo page){
         Pageable able = null;
         int pageNumber = page.getPageNumber();
@@ -52,7 +49,7 @@ public class PageUtil {
         return able;
     }
 
-    @ApiModelProperty(value = "MybatisPlus分页方法")
+    @Schema(description = "MybatisPlus分页方法")
     public static Page initMpPage(PageVo page){
         Page newPage = null;
         int pageNumber = page.getPageNumber();
@@ -82,7 +79,7 @@ public class PageUtil {
         return newPage;
     }
 
-    @ApiModelProperty(value = "自定义分页方法")
+    @Schema(description = "自定义分页方法")
     public static List listToPage(PageVo page, List list) {
         int pageNumber = page.getPageNumber() - 1;
         int pageSize = page.getPageSize();
@@ -100,7 +97,7 @@ public class PageUtil {
         }
     }
 
-    @ApiModelProperty(value = "防 Mybatis Plus 的 SQL 注入攻击")
+    @Schema(description = "防 Mybatis Plus 的 SQL 注入攻击")
     public static void SQLInject(String sqlStr){
         if (ZwzNullUtils.isNull(sqlStr)) {
             return;
@@ -113,7 +110,7 @@ public class PageUtil {
         }
     }
 
-    @ApiModelProperty(value = "驼峰转下划线")
+    @Schema(description = "驼峰转下划线")
     public static String camel2Underline(String underlineContent) {
         if (ZwzNullUtils.isNull(underlineContent)) {
             return NULL_STR;

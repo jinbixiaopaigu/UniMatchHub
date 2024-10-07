@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * 会员数据处理层
- * @author 郑为中
+
  */
 public interface MemberMapper extends BaseMapper<Member> {
 

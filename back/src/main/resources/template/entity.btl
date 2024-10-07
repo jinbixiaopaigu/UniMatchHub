@@ -2,11 +2,10 @@ package ${entity.entityPackage};
 
 import cn.zwz.basics.baseClass.ZwzBaseEntity;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import io.swagger.v3.oas.annotations.media.Schema;  // 替换Swagger的导入
 <%
 if(entity.activiti&&!entity.isTree){
 %>
@@ -31,18 +30,12 @@ import java.math.BigDecimal;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
-/**
- * ${entity.description} 实体类
- * @author ${entity.author}
- * CSDN: Designer 小郑
- */
 @Data
 @Entity
 @DynamicInsert
 @DynamicUpdate
 @Table(name = "${entity.tableName}")
 @TableName("${entity.tableName}")
-@ApiModel(value = "${entity.description}")
 public class ${entity.className} extends ZwzBaseEntity {
 
     private static final long serialVersionUID = 1L;
@@ -50,7 +43,7 @@ public class ${entity.className} extends ZwzBaseEntity {
     <%
     if(!entity.isTree){
     %>
-    @ApiModelProperty(value = "${entity.description}标题")
+    @Schema(description = "${entity.description}标题")  // 替换 @ApiModelProperty 为 @Schema
     private String title;
     <%
     }
@@ -59,38 +52,38 @@ public class ${entity.className} extends ZwzBaseEntity {
     <%
     if(entity.activiti&&!entity.isTree){
     %>
-    @ApiModelProperty(value = "关联流程申请表id")
+    @Schema(description = "关联流程申请表id")  // 替换 @ApiModelProperty 为 @Schema
     private String actBusinessId;
 
     @Transient
     @TableField(exist=false)
-    @ApiModelProperty(value = "申请用户")
+    @Schema(description = "申请用户")  // 替换 @ApiModelProperty 为 @Schema
     private String applyUser;
 
     @Transient
     @TableField(exist=false)
-    @ApiModelProperty(value = "表单路由名")
+    @Schema(description = "表单路由名")  // 替换 @ApiModelProperty 为 @Schema
     private String routeName;
 
     @Transient
     @TableField(exist=false)
-    @ApiModelProperty(value = "流程实例id")
+    @Schema(description = "流程实例id")  // 替换 @ApiModelProperty 为 @Schema
     private String procInstId;
 
     @Transient
     @TableField(exist=false)
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
-    @ApiModelProperty(value = "提交申请时间")
+    @Schema(description = "提交申请时间")  // 替换 @ApiModelProperty 为 @Schema
     private Date applyTime;
 
     @Transient
     @TableField(exist=false)
-    @ApiModelProperty(value = "状态 0草稿默认 1处理中 2结束")
+    @Schema(description = "状态 0草稿默认 1处理中 2结束")  // 替换 @ApiModelProperty 为 @Schema
     private Integer status;
 
     @Transient
     @TableField(exist=false)
-    @ApiModelProperty(value = "结果状态 0未提交默认 1处理中 2通过 3驳回")
+    @Schema(description = "结果状态 0未提交默认 1处理中 2通过 3驳回")  // 替换 @ApiModelProperty 为 @Schema
     private Integer result;
     <%
     }
@@ -98,22 +91,22 @@ public class ${entity.className} extends ZwzBaseEntity {
     <%
     if(entity.isTree){
     %>
-    @ApiModelProperty(value = "分类名称")
+    @Schema(description = "分类名称")  // 替换 @ApiModelProperty 为 @Schema
     private String title;
 
-    @ApiModelProperty(value = "父id")
+    @Schema(description = "父id")  // 替换 @ApiModelProperty 为 @Schema
     private String parentId;
 
-    @ApiModelProperty(value = "是否为父节点(含子节点) 默认false")
+    @Schema(description = "是否为父节点(含子节点) 默认false")  // 替换 @ApiModelProperty 为 @Schema
     private Boolean isParent = false;
 
-    @ApiModelProperty(value = "排序值")
+    @Schema(description = "排序值")  // 替换 @ApiModelProperty 为 @Schema
     @Column(precision = 10, scale = 2)
     private BigDecimal sortOrder;
 
     @Transient
     @TableField(exist=false)
-    @ApiModelProperty(value = "父节点名称")
+    @Schema(description = "父节点名称")  // 替换 @ApiModelProperty 为 @Schema
     private String parentTitle;
     <%
     }

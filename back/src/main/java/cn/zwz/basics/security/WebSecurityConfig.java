@@ -5,7 +5,7 @@ import cn.zwz.basics.security.jwt.*;
 import cn.zwz.basics.utils.SecurityUtil;
 import cn.zwz.basics.parameter.ZwzLoginProperties;
 import cn.zwz.basics.security.validate.ImageValidateFilter;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,11 +22,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-/**
- * @author 郑为中
- * CSDN: Designer 小郑
- */
-@ApiOperation(value = "SpringSecurity配置类")
+
+//@Operation(description = "SpringSecurity配置类")
 @Configuration
 @EnableMethodSecurity
 public class WebSecurityConfig {

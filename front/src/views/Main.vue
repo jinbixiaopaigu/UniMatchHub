@@ -258,6 +258,7 @@ export default {
     },
     watch: {
         $route(to) {
+          console.log("to",to);
             this.$store.commit("setCurrentPageName", to.name);
             let pathArr = util.setCurrentPath(this, to.name);
             if (pathArr.length > 2) {
@@ -271,6 +272,7 @@ export default {
         }
     },
     mounted() {
+      console.log("main mounted")
         this.init();
         let that = this;
         this.resize();

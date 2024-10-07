@@ -4,8 +4,9 @@ import cn.hutool.core.date.DateUtil;
 import cn.zwz.basics.code.bean.Entity;
 import cn.zwz.basics.exception.ZwzException;
 import cn.zwz.data.utils.ZwzNullUtils;
-import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.extern.slf4j.Slf4j;
 import org.beetl.core.Configuration;
 import org.beetl.core.GroupTemplate;
@@ -18,12 +19,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Objects;
 
-/**
- * @author 郑为中
- * CSDN: Designer 小郑
- */
+
 @Slf4j
-@ApiOperation(value = "后端代码生成器")
+//@Operation(description = "后端代码生成器")
 public class MyBatisPlusUtils {
     public MyBatisPlusUtils(String className,String description,String path,Boolean removeFlag) {
         this.className = className;
@@ -47,40 +45,37 @@ public class MyBatisPlusUtils {
         }
     }
 
-    @ApiModelProperty(value = "是否删除代码")
+    @Schema(description = "是否删除代码")
     private Boolean removeFlag = false;
 
-    @ApiModelProperty(value = "类名")
+    @Schema(description = "类名")
     private String className = "";
 
-    @ApiModelProperty(value = "类备注")
+    @Schema(description = "类备注")
     private String description = "";
 
-    @ApiModelProperty(value = "作者")
-    private static final String author = "郑为中";
-
-    @ApiModelProperty(value = "数据库表前缀")
+    @Schema(description = "数据库表前缀")
     private static final String tablePre = "a_";
 
-    @ApiModelProperty(value = "主键类型")
+    @Schema(description = "主键类型")
     private static final String primaryKeyType = "String";
 
-    @ApiModelProperty(value = "实体类对应包")
+    @Schema(description = "实体类对应包")
     private String entityPackage = "";
 
-    @ApiModelProperty(value = "dao对应包")
+    @Schema(description = "dao对应包")
     private String daoPackage = "";
 
-    @ApiModelProperty(value = "service对应包")
+    @Schema(description = "service对应包")
     private String servicePackage = "";
 
-    @ApiModelProperty(value = "serviceImpl对应包")
+    @Schema(description = "serviceImpl对应包")
     private String serviceImplPackage = "";
 
-    @ApiModelProperty(value = "controller对应包")
+    @Schema(description = "controller对应包")
     private String controllerPackage = "";
 
-    @ApiOperation(value = "生成代码")
+    @Operation(description = "生成代码")
     private void createNewCode(GroupTemplate gt) throws IOException {
         Template entityTemplate = gt.getTemplate("entity.btl");
         Template daoTemplate = gt.getTemplate("mapper.btl");
@@ -94,7 +89,6 @@ public class MyBatisPlusUtils {
         entity.setServicePackage(servicePackage);
         entity.setServiceImplPackage(serviceImplPackage);
         entity.setControllerPackage(controllerPackage);
-        entity.setAuthor(author);
         entity.setClassName(name(className, true));
         entity.setTableName(tablePre+camel2Underline(className));
         entity.setClassNameLowerCase(name(className, false));
@@ -207,7 +201,7 @@ public class MyBatisPlusUtils {
         log.info("【生成代码成功】" + DateUtil.now());
     }
 
-    @ApiOperation(value = "删除代码")
+    @Operation(description = "删除代码")
     private void removeNewCode(String className) {
         String entityFileUrl = System.getProperty("user.dir")+"/src/main/java/"+ dotToLine(entityPackage) + "/" +className+".java";
         File entityFile = new File(entityFileUrl);
@@ -246,12 +240,12 @@ public class MyBatisPlusUtils {
         log.info("【删除代码成功】" + DateUtil.now());
     }
 
-    @ApiOperation(value = "点转斜线")
+    @Operation(description = "点转斜线")
     public static String dotToLine(String dotContext){
         return dotContext.replace(".", "/");
     }
 
-    @ApiOperation(value = "驼峰法转下划线")
+    @Operation(description = "驼峰法转下划线")
     public static String camel2Underline(String camelContext) {
         if (ZwzNullUtils.isNull(camelContext)) {
             return "";
@@ -270,7 +264,7 @@ public class MyBatisPlusUtils {
         return (camelContext.charAt(0) + stringBuffer.toString()).toLowerCase();
     }
 
-    @ApiOperation(value = "首字母是否大小写")
+    @Operation(description = "首字母是否大小写")
     public static String name(String classTitle, boolean isFirstUpper){
         if(ZwzNullUtils.isNull(classTitle)){
             throw new ZwzException("类名的长度必须是正数");

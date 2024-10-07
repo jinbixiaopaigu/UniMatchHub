@@ -8,9 +8,9 @@ import cn.zwz.basics.baseVo.Result;
 import cn.zwz.data.utils.ZwzNullUtils;
 import cn.zwz.data.vo.RedisVo;
 import cn.hutool.core.date.DateUtil;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -21,17 +21,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
-/**
- * @author 郑为中
- * CSDN: Designer 小郑
- */
+
 @RestController
-@Api(tags = "缓存管理接口")
+@Tag(name = "缓存管理接口")
 @RequestMapping("/zwz/redis")
 @Transactional
 public class RedisController {
 
-    @ApiModelProperty(value = "最大键值数")
+    @Schema(description = "最大键值数")
     private static final int maxSize = 100000;
 
     private static final String DATE_FORMAT_IN_REDIS = "HH:mm:ss";
@@ -47,7 +44,7 @@ public class RedisController {
     private RedisTemplateHelper redisTemplateHelper;
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    @ApiOperation(value = "新增")
+    @Operation(description = "新增")
     public Result<Object> save(@RequestParam String key,@RequestParam String value,@RequestParam Long expireTime){
         if(expireTime == 0L) {
             return ResultUtil.success();
@@ -60,7 +57,7 @@ public class RedisController {
     }
 
     @RequestMapping(value = "/delByKeys", method = RequestMethod.POST)
-    @ApiOperation(value = "删除")
+    @Operation(description = "删除")
     public Result<Object> delByKeys(@RequestParam String[] keys){
         for(String redisKey : keys){
             redisTemplate.delete(redisKey);
@@ -69,14 +66,14 @@ public class RedisController {
     }
 
     @RequestMapping(value = "/delAll", method = RequestMethod.POST)
-    @ApiOperation(value = "全部删除")
+    @Operation(description = "全部删除")
     public Result<Object> delAll(){
         redisTemplate.delete(redisTemplateHelper.keys(STEP_STR_IN_REDIS));
         return ResultUtil.success();
     }
 
     @RequestMapping(value = "/getKeySize", method = RequestMethod.GET)
-    @ApiOperation(value = "获取实时key大小")
+    @Operation(description = "获取实时key大小")
     public Result<Object> getKeySize(){
         Map<String, Object> map = new HashMap<>(INIT_SIZE_IN_REDIS);
         map.put("keySize", redisTemplate.getConnectionFactory().getConnection().dbSize());
@@ -85,7 +82,7 @@ public class RedisController {
     }
 
     @RequestMapping(value = "/getMemory", method = RequestMethod.GET)
-    @ApiOperation(value = "获取实时内存大小")
+    @Operation(description = "获取实时内存大小")
     public Result<Object> getMemory(){
         Map<String, Object> hashMap = new HashMap<>(INIT_SIZE_IN_REDIS);
         Properties properties = redisTemplate.getConnectionFactory().getConnection().info("memory");
@@ -95,7 +92,7 @@ public class RedisController {
     }
 
     @RequestMapping(value = "/getAllByPage", method = RequestMethod.GET)
-    @ApiOperation(value = "查询Redis数据")
+    @Operation(description = "查询Redis数据")
     public Result<Page<RedisVo>> getAllByPage(@RequestParam(required = false) String key,PageVo pageVo){
         List<RedisVo> list = new ArrayList<>();
         if(!ZwzNullUtils.isNull(key)){
@@ -134,7 +131,7 @@ public class RedisController {
     }
 
     @RequestMapping(value = "/getByKey/{key}", method = RequestMethod.GET)
-    @ApiOperation(value = "通过key获取")
+    @Operation(description = "通过key获取")
     public Result<Object> getByKey(@PathVariable String key){
         Map<String, Object> map = new HashMap<>();
         String redisValue = redisTemplate.opsForValue().get(key);

@@ -9,23 +9,20 @@ import javax.net.ssl.*;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
-import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * @author 郑为中
- * CSDN: Designer 小郑
- */
-@ApiOperation(value = "HTTP工具类")
+
+//@Operation(description = "HTTP工具类")
 public class WeiChatUtils implements X509TrustManager {
 
-    @ApiModelProperty(value = "企业ID")
+    @Schema(description = "企业ID")
     public static final String CORPID = "";
 
-    @ApiModelProperty(value = "企业微信密匙")
+    @Schema(description = "企业微信密匙")
     public static final String CORPSECRET = "";
 
     /**

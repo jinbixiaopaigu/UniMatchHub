@@ -1,14 +1,11 @@
 package cn.zwz.basics.utils;
 
 import cn.zwz.basics.baseVo.Result;
-import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema;
 
-/**
- * @author 郑为中
- * CSDN: Designer 小郑
- */
-@ApiOperation(value = "API接口回调工具类")
+
+//@Operation(description = "API接口回调工具类")
 public class ResultUtil<T> {
 
     private Result<T> result;
@@ -24,14 +21,14 @@ public class ResultUtil<T> {
         result.setCode(200);
     }
 
-    @ApiModelProperty(value = "成功返回数据")
+    @Schema(description = "成功返回数据")
     public Result<T> setData(T t){
         this.result.setResult(t);
         this.result.setCode(200);
         return this.result;
     }
 
-    @ApiModelProperty(value = "成功返回数据和备注")
+    @Schema(description = "成功返回数据和备注")
     public Result<T> setDataAndMessage(T t, String msg){
         this.result.setResult(t);
         this.result.setCode(200);
@@ -39,7 +36,7 @@ public class ResultUtil<T> {
         return this.result;
     }
 
-    @ApiModelProperty(value = "成功返回备注")
+    @Schema(description = "成功返回备注")
     public Result<T> setSuccessMsg(String msg){
         this.result.setSuccess(true);
         this.result.setMessage(msg);
@@ -48,7 +45,7 @@ public class ResultUtil<T> {
         return this.result;
     }
 
-    @ApiModelProperty(value = "成功返回数据和备注")
+    @Schema(description = "成功返回数据和备注")
     public Result<T> setData(T t, String msg){
         this.result.setResult(t);
         this.result.setCode(200);
@@ -56,7 +53,7 @@ public class ResultUtil<T> {
         return this.result;
     }
 
-    @ApiModelProperty(value = "错误返回备注")
+    @Schema(description = "错误返回备注")
     public Result<T> setErrorMsg(String msg){
         this.result.setSuccess(false);
         this.result.setMessage(msg);
@@ -64,7 +61,7 @@ public class ResultUtil<T> {
         return this.result;
     }
 
-    @ApiModelProperty(value = "错误返回状态码备注")
+    @Schema(description = "错误返回状态码备注")
     public Result<T> setErrorMsg(Integer code, String msg){
         this.result.setSuccess(false);
         this.result.setMessage(msg);

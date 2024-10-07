@@ -172,9 +172,14 @@ export default {
                     this.setStore("userInfo", res.result);
                     this.$store.commit("setAvatarPath", res.result.avatar);
                     util.initRouter(this);
-                    this.$router.push({
-                        name: "home_index",
-                    });
+                    console.log(this.$router);
+                  this.$router.push({ name: 'home_index' })
+                      .then(() => {
+                        console.log("Successfully navigated to home_index");
+                      })
+                      .catch((error) => {
+                        console.error("Error navigating to home_index:", error);
+                      });
                 } else {
                     this.loading = false;
                 }
@@ -191,6 +196,7 @@ export default {
                         captchaId: this.captchaId,
                         saveLogin: this.saveLogin
                     }).then(res => {
+                        console.log("res",res);
                         if (res.success) {
                             this.afterLogin(res);
                         } else {

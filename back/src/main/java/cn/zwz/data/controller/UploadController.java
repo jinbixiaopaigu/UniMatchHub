@@ -11,8 +11,8 @@ import cn.zwz.basics.baseVo.Result;
 import cn.zwz.data.entity.File;
 import cn.hutool.core.util.StrUtil;
 import cn.zwz.data.vo.OssSettingVo;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -20,12 +20,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
 
-/**
- * @author 郑为中
- * CSDN: Designer 小郑
- */
+
 @RestController
-@Api(tags = "文件上传接口")
+@Tag(name = "文件上传接口")
 @RequestMapping("/zwz/upload")
 @Transactional
 public class UploadController {
@@ -41,7 +38,7 @@ public class UploadController {
 
     @SystemLog(about = "文件上传", type = LogType.DATA_CENTER,doType = "FILE-06")
     @RequestMapping(value = "/file", method = RequestMethod.POST)
-    @ApiOperation(value = "文件上传")
+    @Operation(description = "文件上传")
     public Result<Object> upload(@RequestParam(required = false) MultipartFile file,@RequestParam(required = false) String base64) {
         if(StrUtil.isNotBlank(base64)){
             file = Base64DecodeMultipartFile.base64Convert(base64);

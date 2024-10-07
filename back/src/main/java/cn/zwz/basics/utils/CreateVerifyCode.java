@@ -2,8 +2,9 @@ package cn.zwz.basics.utils;
 
 import cn.zwz.basics.exception.ZwzException;
 import cn.zwz.data.utils.ZwzNullUtils;
-import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -12,29 +13,26 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Random;
 
-/**
- * @author 郑为中
- * CSDN: Designer 小郑
- */
-@ApiOperation(value = "验证码工具类")
+
+//@Operation(description = "验证码工具类")
 public class CreateVerifyCode {
 
-    @ApiModelProperty(value = "验证码")
+    @Schema(description = "验证码")
     private String code = null;
 
-    @ApiModelProperty(value = "验证码字符个数")
+    @Schema(description = "验证码字符个数")
     private int charactersNumber = 4;
 
-    @ApiModelProperty(value = "图片高度")
+    @Schema(description = "图片高度")
     private int imagePeripheralHeight = 40;
 
-    @ApiModelProperty(value = "图片宽度")
+    @Schema(description = "图片宽度")
     private int imagePeripheralWidth = 160;
 
-    @ApiModelProperty(value = "干扰线数")
+    @Schema(description = "干扰线数")
     private int lineCount = 20;
 
-    @ApiModelProperty(value = "图片Buffer")
+    @Schema(description = "图片Buffer")
     private BufferedImage buffImg = null;
 
     Random random = new Random();
@@ -126,7 +124,7 @@ public class CreateVerifyCode {
 
     }
 
-    @ApiOperation(value = "图片生成工具类")
+    @Operation(description = "图片生成工具类")
     private void creatImage(String code) {
         if(ZwzNullUtils.isNull(code)){
             throw new ZwzException("图形验证码过期了，再生成个新的哦!");
@@ -158,7 +156,7 @@ public class CreateVerifyCode {
         }
     }
 
-    @ApiOperation(value = "随机生成验证码")
+    @Operation(description = "随机生成验证码")
     public String randomStr(int size) {
         String str1 = "0123456789";
         String str2 = "";
@@ -170,7 +168,7 @@ public class CreateVerifyCode {
         return str2;
     }
 
-    @ApiOperation(value = "随机生成验证码颜色")
+    @Operation(description = "随机生成验证码颜色")
     private Color getRandColor(int color1, int color2) {
         color1 = color1 > 255 ? 255 : color1;
         color2 = color2 > 255 ? 255 : color2;

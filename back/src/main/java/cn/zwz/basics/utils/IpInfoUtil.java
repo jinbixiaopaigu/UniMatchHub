@@ -3,8 +3,9 @@ package cn.zwz.basics.utils;
 import cn.hutool.http.HttpUtil;
 import cn.zwz.data.utils.ZwzNullUtils;
 import com.alibaba.fastjson2.JSONObject;
-import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -13,16 +14,13 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Objects;
 
-/**
- * @author 郑为中
- * CSDN: Designer 小郑
- */
-@ApiOperation(value = "IP定位工具类")
+
+//@Operation(description = "IP定位工具类")
 @Slf4j
 @Component
 public class IpInfoUtil {
 
-    @ApiModelProperty(value = "腾讯地图的KEY值")
+    @Schema(description = "腾讯地图的KEY值")
     private String key = "XXXXX-XXXXX-XXXXX-XXXXX-XXXXX";
 
     private static final String IP_HEADER_PRE_ONE = "x-forwarded-for";
@@ -39,7 +37,7 @@ public class IpInfoUtil {
 
     private static final String TXDT_URL_PRE = "https://apis.map.qq.com/ws/location/v1/ip?key=";
 
-    @ApiOperation(value = "查询IP地址的区县")
+    @Operation(description = "查询IP地址的区县")
     public String getIpCity(HttpServletRequest request){
         String url = TXDT_URL_PRE + key + "&ip=" + getRequestIpAddress(request);
         String resultStr = "本地测试";
@@ -69,7 +67,7 @@ public class IpInfoUtil {
         return resultStr;
     }
 
-    @ApiOperation(value = "查询请求的IP地址")
+    @Operation(description = "查询请求的IP地址")
     public String getRequestIpAddress(HttpServletRequest request) {
         String ipAddress = request.getHeader(IP_HEADER_PRE_ONE);
         if (ipAddress == null || ipAddress.length() < 1 || IP_HEADER_NONE.equalsIgnoreCase(ipAddress)) {

@@ -149,6 +149,7 @@ export default {
         },
     },
     mounted() {
+        console.log("home_index component mounted");
         this.init();
         this.clientHeight = `${document.documentElement.clientHeight}`;
         let that = this;

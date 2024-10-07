@@ -7,7 +7,8 @@ import cn.zwz.basics.utils.ResponseUtil;
 import cn.zwz.basics.utils.SecurityUtil;
 import cn.zwz.data.utils.ZwzNullUtils;
 import com.alibaba.fastjson2.JSONObject;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,11 +27,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-/**
- * @author 郑为中
- * CSDN: Designer 小郑
- */
-@ApiOperation(value = "自定义权限过滤")
+
+//@Operation(description = "自定义权限过滤")
 @Slf4j
 public class JwtTokenOncePerRequestFilter extends OncePerRequestFilter {
 
@@ -65,7 +63,7 @@ public class JwtTokenOncePerRequestFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    @ApiOperation(value = "判断登录是否失效")
+    @Operation(description = "判断登录是否失效")
     private UsernamePasswordAuthenticationToken getUsernamePasswordAuthenticationToken(String header, HttpServletResponse response) {
         String userName = null;
         String tokenInRedis = redisTemplate.get(ZwzLoginProperties.HTTP_TOKEN_PRE + header);

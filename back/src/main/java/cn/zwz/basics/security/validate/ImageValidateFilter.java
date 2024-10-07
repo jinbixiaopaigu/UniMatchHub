@@ -3,7 +3,8 @@ package cn.zwz.basics.security.validate;
 import cn.zwz.basics.utils.ResponseUtil;
 import cn.zwz.basics.parameter.CaptchaProperties;
 import cn.zwz.data.utils.ZwzNullUtils;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -17,11 +18,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Objects;
 
-/**
- * @author 郑为中
- * CSDN: Designer 小郑
- */
-@ApiOperation(value = "验证码过滤类")
+
+//@Operation(description = "验证码过滤类")
 @Configuration
 public class ImageValidateFilter extends OncePerRequestFilter {
 
@@ -39,7 +37,7 @@ public class ImageValidateFilter extends OncePerRequestFilter {
     private static final int RESPONSE_CODE_FAIL_CODE = 500;
 
     @Override
-    @ApiOperation(value = "验证码过滤")
+    @Operation(description = "验证码过滤")
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         Boolean filterFlag = false;
         for(String requestURI : captchaProperties.getVerification()){

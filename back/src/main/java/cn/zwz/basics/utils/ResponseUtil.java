@@ -1,8 +1,8 @@
 package cn.zwz.basics.utils;
 
 import com.alibaba.fastjson2.JSONObject;
-import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.extern.slf4j.Slf4j;
 
 import jakarta.servlet.ServletOutputStream;
@@ -11,11 +11,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * @author 郑为中
- * CSDN: Designer 小郑
- */
-@ApiOperation(value = "API接口回调工具类")
+
+//@Operation(description = "API接口回调工具类")
 @Slf4j
 public class ResponseUtil {
 
@@ -23,7 +20,7 @@ public class ResponseUtil {
 
     private static final String CONTENT_TYPE = "application/json;charset=UTF-8";
 
-    @ApiModelProperty(value = "输出JSON")
+    @Schema(description = "输出JSON")
     public static void out(HttpServletResponse httpServletResponse, Map<String, Object> responseMap){
         ServletOutputStream outputStream = null;
         try {

@@ -18,8 +18,8 @@ import cn.zwz.data.service.IUserService;
 import cn.zwz.data.utils.ZwzNullUtils;
 import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,12 +31,9 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-/**
- * @author 郑为中
- * CSDN: Designer 小郑
- */
+
 @RestController
-@Api(tags = "部门管理接口")
+@Tag(name = "部门管理接口")
 @RequestMapping("/zwz/department")
 @CacheConfig(cacheNames = "department")
 @Transactional
@@ -65,7 +62,7 @@ public class DepartmentController {
 
     @SystemLog(about = "查询子部门", type = LogType.DATA_CENTER,doType = "DEP-01")
     @RequestMapping(value = "/getByParentId", method = RequestMethod.GET)
-    @ApiOperation(value = "查询子部门")
+    @Operation(description = "查询子部门")
     public Result<List<Department>> getByParentId(@RequestParam(required = false,defaultValue = "0") String parentId){
         List<Department> list = null;
         User nowUser = securityUtil.getCurrUser();
@@ -85,7 +82,7 @@ public class DepartmentController {
 
     @SystemLog(about = "模糊搜索部门", type = LogType.DATA_CENTER,doType = "DEP-02")
     @RequestMapping(value = "/search", method = RequestMethod.GET)
-    @ApiOperation(value = "模糊搜索部门")
+    @Operation(description = "模糊搜索部门")
     public Result<List<Department>> search(@RequestParam String title){
         QueryWrapper<Department> depQw = new QueryWrapper<>();
         depQw.like("title",title);
@@ -96,7 +93,7 @@ public class DepartmentController {
 
     @SystemLog(about = "添加部门", type = LogType.DATA_CENTER,doType = "DEP-03")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    @ApiOperation(value = "添加部门")
+    @Operation(description = "添加部门")
     public Result<Object> add(Department department){
         iDepartmentService.saveOrUpdate(department);
         if(!Objects.equals(CommonConstant.PARENT_ID,department.getParentId())){
@@ -113,7 +110,7 @@ public class DepartmentController {
 
     @SystemLog(about = "编辑部门", type = LogType.DATA_CENTER,doType = "DEP-04")
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
-    @ApiOperation(value = "编辑部门")
+    @Operation(description = "编辑部门")
     public Result<Object> edit(Department department,@RequestParam(required = false) String[] mainHeader,@RequestParam(required = false) String[] viceHeader){
         Department oldDepartment = iDepartmentService.getById(department.getId());
         iDepartmentService.saveOrUpdate(department);
@@ -154,7 +151,7 @@ public class DepartmentController {
 
     @SystemLog(about = "删除部门", type = LogType.DATA_CENTER,doType = "DEP-05")
     @RequestMapping(value = "/delByIds", method = RequestMethod.POST)
-    @ApiOperation(value = "删除部门")
+    @Operation(description = "删除部门")
     public Result<Object> delByIds(@RequestParam String[] ids){
         for(String departmentId : ids){
             deleteRecursion(departmentId, ids);
@@ -168,7 +165,7 @@ public class DepartmentController {
         return ResultUtil.success();
     }
 
-    @ApiOperation(value = "迭代删除部门")
+    @Operation(description = "迭代删除部门")
     public void deleteRecursion(String id, String[] ids) {
         QueryWrapper<User> userQw = new QueryWrapper<>();
         userQw.eq("department_id",id);
@@ -206,7 +203,7 @@ public class DepartmentController {
         }
     }
 
-    @ApiOperation(value = "增加一级部门标识")
+    @Operation(description = "增加一级部门标识")
     public List<Department> setInfo(List<Department> list) {
         list.forEach(item -> {
             if(!Objects.equals(CommonConstant.PARENT_ID,item.getParentId())){
@@ -242,7 +239,7 @@ public class DepartmentController {
         return list;
     }
 
-    @ApiOperation(value = "添加模拟搜索标志")
+    @Operation(description = "添加模拟搜索标志")
     private String addLikeStr(String str) {
         return "%" + str + "%";
     }

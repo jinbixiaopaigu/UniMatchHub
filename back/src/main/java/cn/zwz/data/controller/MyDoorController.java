@@ -10,8 +10,8 @@ import cn.zwz.data.entity.User;
 import cn.zwz.data.service.IPermissionService;
 import cn.zwz.data.service.IUserService;
 import cn.zwz.data.utils.ZwzNullUtils;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,12 +24,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * @author 郑为中
- * CSDN: Designer 小郑
- */
+
 @RestController
-@Api(tags = "个人门户接口")
+@Tag(name = "个人门户接口")
 @RequestMapping("/zwz/myDoor")
 @Transactional
 public class MyDoorController {
@@ -44,7 +41,7 @@ public class MyDoorController {
     private IUserService iUserService;
 
     @SystemLog(about = "查询个人门户菜单A", type = LogType.DATA_CENTER,doType = "MY-DOOR-01")
-    @ApiOperation(value = "查询个人门户菜单A")
+    @Operation(description = "查询个人门户菜单A")
     @RequestMapping(value = "/getMyDoorList", method = RequestMethod.POST)
     public Result<List<MyDoorMenuClass>> getMyDoorList(){
         User user = securityUtil.getCurrUser();
@@ -71,7 +68,7 @@ public class MyDoorController {
     }
 
     @SystemLog(about = "查询个人门户菜单B", type = LogType.DATA_CENTER,doType = "MY-DOOR-02")
-    @ApiOperation(value = "获取个人门户菜单B")
+    @Operation(description = "获取个人门户菜单B")
     @RequestMapping(value = "/getMyDoorList6", method = RequestMethod.POST)
     public Result<List<MyDoorMenuClass>> getMyDoorList6(){
         User user = securityUtil.getCurrUser();
@@ -107,7 +104,7 @@ public class MyDoorController {
     }
 
     @SystemLog(about = "修改个人门户菜单", type = LogType.DATA_CENTER,doType = "MY-DOOR-03")
-    @ApiOperation(value = "修改个人门户菜单")
+    @Operation(description = "修改个人门户菜单")
     @RequestMapping(value = "/setMyDoorList", method = RequestMethod.POST)
     public Result<Object> setMyDoorList(@RequestParam String str){
         User user = securityUtil.getCurrUser();

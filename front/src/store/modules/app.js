@@ -43,12 +43,19 @@ const app = {
     mutations: {
         // 动态添加主界面路由，需要缓存
         updateAppRouter(state, routes) {
+            // 将路由信息存储到 Vuex 的 state 中
             state.routers.push(...routes);
-            router.addRoutes(routes);
+            // 动态添加每一条路由
+            routes.forEach(route => {
+                router.addRoute(route);
+            });
         },
         // 动态添加全局路由404、500等页面，不需要缓存
         updateDefaultRouter(state, routes) {
-            router.addRoutes(routes);
+            // 动态添加每一条路由
+            routes.forEach(route => {
+                router.addRoute(route);
+            });
         },
         setLoading(state, v) {
             state.loading = v;

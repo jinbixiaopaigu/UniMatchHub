@@ -1,15 +1,13 @@
 package cn.zwz.data.vo;
 
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.Data;
 
 import java.math.BigDecimal;
 
-/**
- * @author 郑为中
- * CSDN: Designer 小郑
- */
-@Api(tags = "图表VO类")
+
+@Tag(name = "图表VO类")
 @Data
 public class AntvVo {
     private String title;

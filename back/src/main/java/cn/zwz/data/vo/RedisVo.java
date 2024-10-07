@@ -1,25 +1,23 @@
 package cn.zwz.data.vo;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-/**
- * @author 郑为中
- * CSDN: Designer 小郑
- */
-@Api(tags = "缓存VO类")
+
+@Tag(name = "缓存VO类")
 @Data
 @AllArgsConstructor
 public class RedisVo {
 
-    @ApiModelProperty(value = "Redis键")
+    @Schema(description = "Redis键")
     private String key;
 
-    @ApiModelProperty(value = "Redis值")
+    @Schema(description = "Redis值")
     private String value;
 
-    @ApiModelProperty(value = "保存秒数")
+    @Schema(description = "保存秒数")
     private Long expireTime;
 }

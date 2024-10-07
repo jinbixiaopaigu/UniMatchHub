@@ -2,7 +2,8 @@ package cn.zwz.basics.mybatisplus;
 
 import cn.zwz.basics.redis.RedisTemplateHelper;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +14,8 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 import java.util.Objects;
 
-/**
- * @author 郑为中
- * CSDN: Designer 小郑
- */
-@ApiOperation(value = "MybatisPlus字段填充")
+
+//@Operation(description = "MybatisPlus字段填充")
 @Slf4j
 @Component
 public class MyMetaObjectHandler implements MetaObjectHandler {
@@ -40,7 +38,7 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
     private static final String DEFALUT_STR = "API接口";
 
     @Override
-    @ApiOperation(value = "新增方法填充")
+    @Operation(description = "新增方法填充")
     public void insertFill(MetaObject metaObject) {
         try {
             Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -62,7 +60,7 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
     }
 
     @Override
-    @ApiOperation(value = "编辑方法填充")
+    @Operation(description = "编辑方法填充")
     public void updateFill(MetaObject metaObject) {
         try {
             Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();

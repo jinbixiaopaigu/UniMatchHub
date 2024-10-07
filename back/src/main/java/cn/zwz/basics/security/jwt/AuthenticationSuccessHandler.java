@@ -8,7 +8,8 @@ import cn.zwz.basics.parameter.ZwzLoginProperties;
 import cn.hutool.core.util.StrUtil;
 import cn.zwz.data.utils.ZwzNullUtils;
 import com.alibaba.fastjson2.JSON;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -28,11 +29,8 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-/**
- * @author 郑为中
- * CSDN: Designer 小郑
- */
-@ApiOperation(value = "登录成功回调")
+
+//@Operation(description = "登录成功回调")
 @Slf4j
 @Component
 public class AuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
@@ -52,7 +50,7 @@ public class AuthenticationSuccessHandler extends SavedRequestAwareAuthenticatio
     private static final String TOKEN_REPLACE_STR_BACK = "";
 
     @Override
-    @ApiOperation(value = "登录成功回调")
+    @Operation(description = "登录成功回调")
     @SystemLog(about = "登录系统", type = LogType.LOGIN)
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication ac) throws IOException, ServletException {
         String saveLogin = request.getParameter(ZwzLoginProperties.SAVE_LOGIN_PRE);

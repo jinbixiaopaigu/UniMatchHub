@@ -15,8 +15,8 @@ import cn.zwz.data.vo.RoleDTO;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
@@ -33,12 +33,9 @@ import java.net.URLDecoder;
 import java.util.*;
 import java.util.stream.Collectors;
 
-/**
- * @author 郑为中
- * CSDN: Designer 小郑
- */
+
 @RestController
-@Api(tags = "用户接口")
+@Tag(name = "用户接口")
 @RequestMapping("/zwz/user")
 @CacheConfig(cacheNames = "user")
 @Transactional
@@ -87,7 +84,7 @@ public class UserController {
 
     @SystemLog(about = "获取当前登录用户", type = LogType.DATA_CENTER,doType = "USER-02")
     @RequestMapping(value = "/info", method = RequestMethod.GET)
-    @ApiOperation(value = "获取当前登录用户")
+    @Operation(description = "获取当前登录用户")
     public Result<User> getUserInfo(){
         User u = securityUtil.getCurrUser();
         entityManager.clear();
@@ -96,7 +93,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/regist", method = RequestMethod.POST)
-    @ApiOperation(value = "注册用户")
+    @Operation(description = "注册用户")
     public Result<Object> regist(@Valid User u){
         u.setEmail(u.getMobile() + "@qq.com");
         QueryWrapper<User> userQw = new QueryWrapper<>();
@@ -120,7 +117,7 @@ public class UserController {
 
     @SystemLog(about = "解锁验证密码", type = LogType.DATA_CENTER,doType = "USER-03")
     @RequestMapping(value = "/unlock", method = RequestMethod.POST)
-    @ApiOperation(value = "解锁验证密码")
+    @Operation(description = "解锁验证密码")
     public Result<Object> unLock(@RequestParam String password){
         User u = securityUtil.getCurrUser();
         if(!new BCryptPasswordEncoder().matches(password, u.getPassword())){
@@ -131,7 +128,7 @@ public class UserController {
 
     @SystemLog(about = "重置密码", type = LogType.DATA_CENTER,doType = "USER-04")
     @RequestMapping(value = "/resetPass", method = RequestMethod.POST)
-    @ApiOperation(value = "重置密码")
+    @Operation(description = "重置密码")
     public Result<Object> resetPass(@RequestParam String[] ids){
         for(String id : ids){
             User userForReset = iUserService.getById(id);
@@ -147,7 +144,7 @@ public class UserController {
 
     @SystemLog(about = "修改用户资料", type = LogType.DATA_CENTER,doType = "USER-05")
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
-    @ApiOperation(value = "修改用户资料",notes = "用户名密码不会修改 需要username更新缓存")
+    @Operation(summary = "修改用户资料", description = "修改用户资料时，用户名密码不会修改。需要使用 username 更新缓存。")
     @CacheEvict(key = "#u.username")
     public Result<Object> editOwn(User u){
         User old = securityUtil.getCurrUser();
@@ -159,7 +156,7 @@ public class UserController {
 
     @SystemLog(about = "修改密码", type = LogType.DATA_CENTER,doType = "USER-06")
     @RequestMapping(value = "/modifyPass", method = RequestMethod.POST)
-    @ApiOperation(value = "修改密码")
+    @Operation(description = "修改密码")
     public Result<Object> modifyPass(@RequestParam String password,@RequestParam String newPass,@RequestParam String passStrength){
         User user = securityUtil.getCurrUser();
         if(!new BCryptPasswordEncoder().matches(password, user.getPassword())){
@@ -175,7 +172,7 @@ public class UserController {
 
     @SystemLog(about = "查询用户", type = LogType.DATA_CENTER,doType = "USER-07")
     @RequestMapping(value = "/getUserList", method = RequestMethod.GET)
-    @ApiOperation(value = "查询用户")
+    @Operation(description = "查询用户")
     public Result<IPage<User>> getUserList(@ModelAttribute User user, @ModelAttribute PageVo page) {
         QueryWrapper<User> userQw = new QueryWrapper<>();
         if(!ZwzNullUtils.isNull(user.getNickname())) {
@@ -201,7 +198,7 @@ public class UserController {
 
     @SystemLog(about = "根据部门查询用户", type = LogType.DATA_CENTER,doType = "USER-08")
     @RequestMapping(value = "/getByDepartmentId", method = RequestMethod.GET)
-    @ApiOperation(value = "根据部门查询用户")
+    @Operation(description = "根据部门查询用户")
     public Result<List<User>> getByCondition(@RequestParam String departmentId){
         QueryWrapper<User> userQw = new QueryWrapper<>();
         userQw.eq("department_id", departmentId);
@@ -215,7 +212,7 @@ public class UserController {
 
     @SystemLog(about = "模拟搜索用户", type = LogType.DATA_CENTER,doType = "USER-09")
     @RequestMapping(value = "/searchByName/{username}", method = RequestMethod.GET)
-    @ApiOperation(value = "模拟搜索用户")
+    @Operation(description = "模拟搜索用户")
     public Result<List<User>> searchByName(@PathVariable String username) throws UnsupportedEncodingException {
         QueryWrapper<User> userQw = new QueryWrapper<>();
         userQw.eq("username", URLDecoder.decode(username, "utf-8"));
@@ -230,7 +227,7 @@ public class UserController {
 
     @SystemLog(about = "查询全部用户", type = LogType.DATA_CENTER,doType = "USER-10")
     @RequestMapping(value = "/getAll", method = RequestMethod.GET)
-    @ApiOperation(value = "查询全部用户")
+    @Operation(description = "查询全部用户")
     public Result<List<User>> getAll(){
         List<User> userList = iUserService.list();
         for(User user: userList){
@@ -242,7 +239,7 @@ public class UserController {
 
     @SystemLog(about = "管理员修改资料", type = LogType.DATA_CENTER,doType = "USER-11")
     @RequestMapping(value = "/admin/edit", method = RequestMethod.POST)
-    @ApiOperation(value = "管理员修改资料")
+    @Operation(description = "管理员修改资料")
     @CacheEvict(key = "#u.username")
     public Result<Object> edit(User u,@RequestParam(required = false) String[] roleIds){
         User customaryUser = iUserService.getById(u.getId());
@@ -288,7 +285,7 @@ public class UserController {
 
     @SystemLog(about = "添加用户", type = LogType.DATA_CENTER,doType = "USER-12")
     @RequestMapping(value = "/admin/add", method = RequestMethod.POST)
-    @ApiOperation(value = "添加用户")
+    @Operation(description = "添加用户")
     public Result<Object> add(@Valid User u,@RequestParam(required = false) String[] roleIds) {
         QueryWrapper<User> userQw = new QueryWrapper<>();
         userQw.and(wrapper -> wrapper.eq("username", u.getUsername()).or().eq("mobile",u.getMobile()));
@@ -319,7 +316,7 @@ public class UserController {
 
     @SystemLog(about = "禁用用户", type = LogType.DATA_CENTER,doType = "USER-13")
     @RequestMapping(value = "/disable", method = RequestMethod.POST)
-    @ApiOperation(value = "禁用用户")
+    @Operation(description = "禁用用户")
     public Result<Object> disable( @RequestParam String id){
         User user = iUserService.getById(id);
         if(user == null){
@@ -333,7 +330,7 @@ public class UserController {
 
     @SystemLog(about = "启用用户", type = LogType.DATA_CENTER,doType = "USER-14")
     @RequestMapping(value = "/enable", method = RequestMethod.POST)
-    @ApiOperation(value = "启用用户")
+    @Operation(description = "启用用户")
     public Result<Object> enable(@RequestParam String id){
         User user = iUserService.getById(id);
         if(user==null){
@@ -347,7 +344,7 @@ public class UserController {
 
     @SystemLog(about = "删除用户", type = LogType.DATA_CENTER,doType = "USER-15")
     @RequestMapping(value = "/delByIds", method = RequestMethod.POST)
-    @ApiOperation(value = "删除用户")
+    @Operation(description = "删除用户")
     public Result<Object> delByIds(@RequestParam String[] ids) {
         for(String id:ids){
             User u = iUserService.getById(id);
@@ -370,7 +367,7 @@ public class UserController {
 
     @SystemLog(about = "导入用户", type = LogType.DATA_CENTER,doType = "USER-16")
     @RequestMapping(value = "/importData", method = RequestMethod.POST)
-    @ApiOperation(value = "导入用户")
+    @Operation(description = "导入用户")
     public Result<Object> importData(@RequestBody List<User> users){
         List<Integer> errors = new ArrayList<>();
         List<String> reasons = new ArrayList<>();
@@ -427,7 +424,7 @@ public class UserController {
         return ResultUtil.success(message);
     }
 
-    @ApiOperation(value = "添加用户的角色和菜单信息")
+    @Operation(description = "添加用户的角色和菜单信息")
     public User userToDTO(User user) {
         if(user == null) {
             return null;

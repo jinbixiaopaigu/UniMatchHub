@@ -13,8 +13,8 @@ import cn.zwz.basics.utils.SecurityUtil;
 import cn.zwz.data.entity.User;
 import cn.zwz.data.service.IUserService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,12 +25,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
-/**
- * @author 郑为中
- * CSDN: Designer 小郑
- */
+
 @RestController
-@Api(tags = "企业微信验证码登录接口")
+@Tag(name = "企业微信验证码登录接口")
 @RequestMapping("/zwz/qwVerificationCode")
 @Transactional
 public class QwVerificationCodeController {
@@ -44,7 +41,7 @@ public class QwVerificationCodeController {
     @Autowired
     private SecurityUtil securityUtil;
 
-    @ApiOperation(value = "发送企微验证码")
+    @Operation(description = "发送企微验证码")
     @RequestMapping(value = "/sendVerificationCode", method = RequestMethod.GET)
     public Result<Object> sendVerificationCode(@RequestParam String jobNumber) {
         if(!Objects.equals("zwz",jobNumber)) {
@@ -67,7 +64,7 @@ public class QwVerificationCodeController {
     }
 
     @SystemLog(about = "企微验证码登入", type = LogType.LOGIN)
-    @ApiOperation(value = "企微验证码登入")
+    @Operation(description = "企微验证码登入")
     @RequestMapping(value = "/verificationCodeLogin", method = RequestMethod.GET)
     public Result<Object> verificationCodeLogin(@RequestParam String jobNumber,@RequestParam String code){
         String codeAns = redisTemplate.get("qwsms:" + jobNumber);

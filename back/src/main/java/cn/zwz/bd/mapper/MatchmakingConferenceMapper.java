@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * 相亲大会数据处理层
- * @author 郑为中
+
  */
 public interface MatchmakingConferenceMapper extends BaseMapper<MatchmakingConference> {
 

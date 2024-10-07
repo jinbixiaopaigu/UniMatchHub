@@ -14,7 +14,8 @@ import cn.zwz.data.vo.RoleDTO;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -25,11 +26,8 @@ import org.springframework.stereotype.Component;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
-/**
- * @author 郑为中
- * CSDN: Designer 小郑
- */
-@ApiOperation(value = "鉴权工具类")
+
+//@Operation(description = "鉴权工具类")
 @Component
 public class SecurityUtil {
 
@@ -86,7 +84,7 @@ public class SecurityUtil {
         return user;
     }
 
-    @ApiOperation(value = "获取新的用户Token")
+    @Operation(description = "获取新的用户Token")
     public String getToken(String username, Boolean saveLogin){
         if(ZwzNullUtils.isNull(username)){
             throw new ZwzException("username不能为空");
@@ -128,7 +126,7 @@ public class SecurityUtil {
         return ansUserToken;
     }
 
-    @ApiOperation(value = "查询指定用户的权限列表")
+    @Operation(description = "查询指定用户的权限列表")
     public List<GrantedAuthority> getCurrUserPerms(String userName){
         List<GrantedAuthority> ans = new ArrayList<>();
         User selectUser = selectByUserName(userName);
@@ -145,7 +143,7 @@ public class SecurityUtil {
         return ans;
     }
 
-    @ApiOperation(value = "查询当前Token的用户对象")
+    @Operation(description = "查询当前Token的用户对象")
     public User getCurrUser(){
         Object selectUser = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if(Objects.equals("anonymousUser",selectUser.toString())){

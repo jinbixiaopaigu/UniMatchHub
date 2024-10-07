@@ -12,10 +12,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
 
-/**
- * @author 郑为中
- * CSDN: Designer 小郑
- */
+
 @Configuration
 @Slf4j
 @Import(cn.hutool.extra.spring.SpringUtil.class)

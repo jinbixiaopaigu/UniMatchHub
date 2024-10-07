@@ -9,8 +9,8 @@ import cn.zwz.data.entity.DictData;
 import cn.zwz.data.service.IDictDataService;
 import cn.zwz.data.service.IDictService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
@@ -19,12 +19,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * @author 郑为中
- * CSDN: Designer 小郑
- */
+
 @RestController
-@Api(tags = "字典管理接口")
+@Tag(name = "字典管理接口")
 @RequestMapping("/zwz/dict")
 @Transactional
 public class DictController {
@@ -41,14 +38,14 @@ public class DictController {
 
     @SystemLog(about = "查询所有数据字典", type = LogType.DATA_CENTER,doType = "DICT-01")
     @RequestMapping(value = "/getAll", method = RequestMethod.GET)
-    @ApiOperation(value = "查询所有数据字典")
+    @Operation(description = "查询所有数据字典")
     public Result<List<Dict>> getAll(){
         return new ResultUtil<List<Dict>>().setData(iDictService.list());
     }
 
     @SystemLog(about = "模拟搜索数据字典", type = LogType.DATA_CENTER,doType = "DICT-02")
     @RequestMapping(value = "/search", method = RequestMethod.GET)
-    @ApiOperation(value = "模拟搜索数据字典")
+    @Operation(description = "模拟搜索数据字典")
     public Result<List<Dict>> search(@RequestParam String key){
         QueryWrapper<Dict> qw = new QueryWrapper<>();
         qw.like("title",key);
@@ -57,7 +54,7 @@ public class DictController {
 
     @SystemLog(about = "添加数据字典", type = LogType.DATA_CENTER,doType = "DICT-03")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    @ApiOperation(value = "添加数据字典")
+    @Operation(description = "添加数据字典")
     public Result<Object> add(Dict dict){
         QueryWrapper<Dict> qw = new QueryWrapper<>();
         qw.eq("type",dict.getType());
@@ -71,7 +68,7 @@ public class DictController {
 
     @SystemLog(about = "编辑数据字典", type = LogType.DATA_CENTER,doType = "DICT-04")
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
-    @ApiOperation(value = "编辑数据字典")
+    @Operation(description = "编辑数据字典")
     public Result<Object> edit(Dict dict){
         Dict oldDict = iDictService.getById(dict.getId());
         if(oldDict == null) {
@@ -91,7 +88,7 @@ public class DictController {
 
     @SystemLog(about = "删除数据字典", type = LogType.DATA_CENTER,doType = "DICT-05")
     @RequestMapping(value = "/delByIds", method = RequestMethod.POST)
-    @ApiOperation(value = "删除数据字典")
+    @Operation(description = "删除数据字典")
     public Result<Object> delByIds(@RequestParam String[] ids){
         for (String distId : ids){
             Dict selectDict = iDictService.getById(distId);

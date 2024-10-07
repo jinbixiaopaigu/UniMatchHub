@@ -13,8 +13,8 @@ import cn.zwz.data.service.IDictService;
 import cn.zwz.data.utils.ZwzNullUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
@@ -22,13 +22,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
 
-/**
- * @author 郑为中
- * CSDN: Designer 小郑
- */
+
 @RestController
 @RequestMapping("/zwz/dictData")
-@Api(tags = "字典数据值接口")
+@Tag(name = "字典数据值接口")
 @Transactional
 public class DictDataController {
 
@@ -45,7 +42,7 @@ public class DictDataController {
 
     @SystemLog(about = "查询单个数据字典的值", type = LogType.DATA_CENTER,doType = "DICT_DATA-01")
     @RequestMapping(value = "/getByType/{type}", method = RequestMethod.GET)
-    @ApiOperation(value = "查询单个数据字典的值")
+    @Operation(description = "查询单个数据字典的值")
     public Result<Object> getByType(@PathVariable String type){
         QueryWrapper<Dict> qw = new QueryWrapper<>();
         qw.eq("type",type);
@@ -60,7 +57,7 @@ public class DictDataController {
 
     @SystemLog(about = "查询数据字典值", type = LogType.DATA_CENTER,doType = "DICT_DATA-02")
     @RequestMapping(value = "/getByCondition", method = RequestMethod.GET)
-    @ApiOperation(value = "查询数据字典值")
+    @Operation(description = "查询数据字典值")
     public Result<IPage<DictData>> getByCondition(@ModelAttribute DictData dictData, @ModelAttribute PageVo page) {
         QueryWrapper<DictData> qw = new QueryWrapper<>();
         if(!ZwzNullUtils.isNull(dictData.getDictId())) {
@@ -92,7 +89,7 @@ public class DictDataController {
 
     @SystemLog(about = "删除数据字典值", type = LogType.DATA_CENTER,doType = "DICT_DATA-03")
     @RequestMapping(value = "/delByIds", method = RequestMethod.POST)
-    @ApiOperation(value = "删除数据字典值")
+    @Operation(description = "删除数据字典值")
     public Result<Object> delByIds(@RequestParam String[] ids){
         for(String dictDataId : ids){
             DictData dictData = iDictDataService.getById(dictDataId);
@@ -105,7 +102,7 @@ public class DictDataController {
 
     @SystemLog(about = "添加数据字典值", type = LogType.DATA_CENTER,doType = "DICT_DATA-04")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    @ApiOperation(value = "添加数据字典值")
+    @Operation(description = "添加数据字典值")
     public Result<Object> add(DictData dictData){
         Dict selectDict = iDictService.getById(dictData.getDictId());
         if (selectDict == null) {
@@ -118,7 +115,7 @@ public class DictDataController {
 
     @SystemLog(about = "编辑数据字典值", type = LogType.DATA_CENTER,doType = "DICT_DATA-05")
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
-    @ApiOperation(value = "编辑数据字典值")
+    @Operation(description = "编辑数据字典值")
     public Result<Object> edit(DictData dictData){
         iDictDataService.saveOrUpdate(dictData);
         Dict selectDict = iDictService.getById(dictData.getDictId());

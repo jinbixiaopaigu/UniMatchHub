@@ -4,79 +4,86 @@ import cn.zwz.basics.utils.PageUtil;
 import cn.zwz.basics.utils.ResultUtil;
 import cn.zwz.basics.baseVo.PageVo;
 import cn.zwz.basics.baseVo.Result;
-import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.Serializable;
 import java.util.List;
 
-/**
- * @author 郑为中
- * CSDN: Designer 小郑
- */
-@ApiOperation(value = "模板控制器层")
+
+// @Operation(description = "模板控制器层")
 public abstract class ZwzBaseController<E, ID extends Serializable> {
 
-    @Autowired
-    public abstract ZwzBaseService<E,ID> getZwzService();
+    private final ZwzBaseService<E, ID> zwzService;
 
-    @RequestMapping(value = "/getOne", name = "查询单个数据", method = RequestMethod.GET)
-    @ResponseBody
-    @ApiOperation(value = "查询单个数据")
-    public Result<E> getOne(@RequestParam ID id){
-        return new ResultUtil<E>().setData(getZwzService().get(id));
+    // 构造函数注入，代替字段注入
+    public ZwzBaseController(ZwzBaseService<E, ID> zwzService) {
+        this.zwzService = zwzService;
     }
 
-    @RequestMapping(value = "/getAll", name = "查询全部数据",  method = RequestMethod.GET)
-    @ResponseBody
-    @ApiOperation(value = "查询全部数据")
-    public Result<List<E>> getAll(){
-        return new ResultUtil<List<E>>().setData(getZwzService().getAll());
+    // 获取注入的服务类实例
+    public ZwzBaseService<E, ID> getZwzService() {
+        return zwzService;
     }
 
-    @RequestMapping(value = "/getByPage", name = "查询数据",  method = RequestMethod.GET)
+    @GetMapping(value = "/getOne")
     @ResponseBody
-    @ApiOperation(value = "查询数据")
-    public Result<Page<E>> getByPage(PageVo page){
-        return new ResultUtil<Page<E>>().setData(getZwzService().findAll(PageUtil.initPage(page)));
+    @Operation(summary = "查询单个数据", description = "通过ID查询单个数据")
+    public Result<E> getOne(@RequestParam ID id) {
+        return new ResultUtil<E>().setData(zwzService.get(id));
     }
 
-    @RequestMapping(value = "/save", name = "新增数据",  method = RequestMethod.POST)
+    @GetMapping(value = "/getAll")
     @ResponseBody
-    @ApiOperation(value = "新增数据")
-    public Result<E> save(E entity){
-        return new ResultUtil<E>().setData(getZwzService().save(entity));
+    @Operation(summary = "查询全部数据", description = "查询全部数据")
+    public Result<List<E>> getAll() {
+        return new ResultUtil<List<E>>().setData(zwzService.getAll());
     }
 
-    @RequestMapping(value = "/update", name = "编辑数据",  method = RequestMethod.PUT)
+    @GetMapping(value = "/getByPage")
     @ResponseBody
-    @ApiOperation(value = "编辑数据")
-    public Result<E> update(E entity){
-        return new ResultUtil<E>().setData(getZwzService().update(entity));
+    @Operation(summary = "查询数据", description = "分页查询数据")
+    public Result<Page<E>> getByPage(PageVo page) {
+        return new ResultUtil<Page<E>>().setData(zwzService.findAll(PageUtil.initPage(page)));
     }
 
-    @RequestMapping(value = "/count", name = "查询数据条数",  method = RequestMethod.POST)
+    @PostMapping(value = "/save")
     @ResponseBody
-    @ApiOperation(value = "查询数据条数")
-    public Result<Long> count(){
-        return new ResultUtil<Long>().setData(getZwzService().count());
+    @Operation(summary = "新增数据", description = "新增一条数据")
+    public Result<E> save(E entity) {
+        return new ResultUtil<E>().setData(zwzService.save(entity));
     }
-    @RequestMapping(value = "/delOne", name = "删除数据",  method = RequestMethod.POST)
+
+    @PutMapping(value = "/update")
     @ResponseBody
-    @ApiOperation(value = "删除数据")
-    public Result<Object> delByIds(@RequestParam ID id){
-        getZwzService().delete(id);
+    @Operation(summary = "编辑数据", description = "编辑现有数据")
+    public Result<E> update(E entity) {
+        return new ResultUtil<E>().setData(zwzService.update(entity));
+    }
+
+    @PostMapping(value = "/count")
+    @ResponseBody
+    @Operation(summary = "查询数据条数", description = "查询数据总条数")
+    public Result<Long> count() {
+        return new ResultUtil<Long>().setData(zwzService.count());
+    }
+
+    @PostMapping(value = "/delOne")
+    @ResponseBody
+    @Operation(summary = "删除单条数据", description = "通过ID删除单条数据")
+    public Result<Object> delByIds(@RequestParam ID id) {
+        zwzService.delete(id);
         return new ResultUtil<Object>().setSuccessMsg("OK");
     }
 
-    @RequestMapping(value = "/delByIds", name = "删除数据",  method = RequestMethod.POST)
+    @PostMapping(value = "/delByIds")
     @ResponseBody
-    @ApiOperation(value = "删除数据")
-    public Result<Object> delByIds(@RequestParam ID[] ids){
-        for(ID id:ids){
-            getZwzService().delete(id);
+    @Operation(summary = "删除多条数据", description = "通过ID列表删除多条数据")
+    public Result<Object> delByIds(@RequestParam ID[] ids) {
+        for (ID id : ids) {
+            zwzService.delete(id);
         }
         return new ResultUtil<Object>().setSuccessMsg("OK");
     }

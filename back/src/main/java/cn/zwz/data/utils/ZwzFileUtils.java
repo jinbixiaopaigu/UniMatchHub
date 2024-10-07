@@ -6,7 +6,8 @@ import cn.zwz.data.service.ISettingService;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.zwz.data.vo.OssSettingVo;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,11 +15,8 @@ import org.springframework.web.multipart.MultipartFile;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.*;
 
-/**
- * @author 郑为中
- * CSDN: Designer 小郑
- */
-@Api(tags = "本地文件工具类")
+
+@Tag(name = "本地文件工具类")
 @Component
 public class ZwzFileUtils implements FileManage {
 
