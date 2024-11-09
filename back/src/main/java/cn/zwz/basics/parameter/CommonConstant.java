@@ -38,5 +38,5 @@ public interface CommonConstant {
     String PARENT_ID = "0";
 
     @Schema(description = "头像URL")
-    String USER_DEFAULT_AVATAR = "https://asoa-1305425069.cos.ap-shanghai.myqcloud.com/1669635627773202432.png";
+    String USER_DEFAULT_AVATAR = "https://raw.githubusercontent.com/jinbixiaopaigu/jinbixiaopaigu/refs/heads/main/test.png";
 }
